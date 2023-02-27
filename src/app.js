@@ -4,7 +4,7 @@ require("../src/db/conn.js")
 const ProductRanking = require("../src/models/products")
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 
 const mongoose = require("mongoose");
 const connectDB = require("../src/db/conn");
