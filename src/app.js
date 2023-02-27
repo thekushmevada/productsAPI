@@ -37,14 +37,14 @@ app.post("/products", async(req, res) => {
 
 //we will handle get request
 app.get("/products", async(req, res) => {
-    // try{
-    //     const getProduct = await ProductRanking.find({});
-    //     res.send(getProduct);
-    // }catch(e){
-    //     res.status(400).send(e);
-    // }
+    try{
+        const getProduct = await ProductRanking.find({});
+        res.send(getProduct);
+    }catch(e){
+        res.status(400).send(e);
+    }
     // console.log("Please provide ID of Product")
-    res.send(e);
+    // res.send(e);
 });
 
 //we will handle get request of individual
