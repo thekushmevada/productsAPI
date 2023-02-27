@@ -11,6 +11,11 @@ const connectDB = require("../src/db/conn");
 const e = require('express');
 mongoose.set('strictQuery', false);
 
+const cors = require('cors');
+app.use(cors({
+    origin: '*'
+}));
+
 connectDB().then(() => {
     ProductRanking.findOne({}, function (error, data) {
         if (error) return console.error(error);
