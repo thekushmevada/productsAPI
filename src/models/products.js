@@ -6,13 +6,26 @@ const productSchema = new mongoose.Schema({
         type:String,
         required:true,
         trim:true,
-        unique:true,
     },
     company:{
         type:String,
         required:true,
         trim:true,
     },
+    price:{
+        type:BigInt64Array,
+    },
+    colors:[
+        {
+            type:String,
+        },
+        {
+            type:String,
+        },
+        {
+            type:String,
+        },
+    ],
     image:{
         type:String,
     },
