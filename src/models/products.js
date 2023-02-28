@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const uuidv4 = require("uuid/v4")
 
 const productSchema = new mongoose.Schema({
     name:{
@@ -26,9 +27,20 @@ const productSchema = new mongoose.Schema({
             type:String,
         },
     ],
-    image:{
-        type:String,
-    },
+    image:[
+        {
+            type:String,
+        },
+        {
+            type:String,
+        },
+        {
+            type:String,
+        },
+        {
+            type:String,
+        },
+    ],
     description:{
         type:String,
         required:true,
@@ -41,6 +53,18 @@ const productSchema = new mongoose.Schema({
     featured:{
         type:Boolean,
     },
+    shipping:{
+        type:Boolean,
+    },
+    stock:{
+        type:Number,
+    },
+    reviews:{
+        type:Number,
+    },
+    stars: {
+        type:Number,
+    }
 })
 
 const ProductRanking = new mongoose.model("ProductRanking" , productSchema)

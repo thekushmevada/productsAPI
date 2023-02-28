@@ -44,6 +44,7 @@ app.post("/products", async(req, res) => {
 app.get("/products", async(req, res) => {
     try{
         const getProduct = await ProductRanking.find({});
+        // console.log(req.query);
         res.send(getProduct);
     }catch(e){
         res.status(400).send(e);
@@ -57,6 +58,7 @@ app.get("/products/:id", async(req, res) => {
     try{
         const _id = req.params.id;
         const getProductU = await ProductRanking.findById({_id});
+        // console.log(req.query);
         res.send(getProductU);
     }catch(e){
         res.status(400).send(e);
