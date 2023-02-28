@@ -1,6 +1,5 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const uuidv4 = require("uuid/v4")
 
 const productSchema = new mongoose.Schema({
     name:{
@@ -64,7 +63,7 @@ const productSchema = new mongoose.Schema({
     },
     stars: {
         type:Number,
-    }
+    },
 })
 
 const ProductRanking = new mongoose.model("ProductRanking" , productSchema)
