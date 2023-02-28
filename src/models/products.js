@@ -13,7 +13,7 @@ const productSchema = new mongoose.Schema({
         trim:true,
     },
     price:{
-        type:BigInt64Array,
+        type:Number,
     },
     colors:[
         {
