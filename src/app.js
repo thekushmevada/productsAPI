@@ -10,7 +10,11 @@ const mongoose = require("mongoose");
 const connectDB = require("../src/db/conn");
 const e = require('express');
 mongoose.set('strictQuery', false);
+
+//Users
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const JWT_SECRET = "abcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*()_-+=`~?<>,.:;''|"
 
 const cors = require('cors');
 app.use(cors({
@@ -66,7 +70,7 @@ app.get("/products/:id", async(req, res) => {
     }
 });
 
-//Register API
+//User Register API
 require("./models/userDetails");
 const User = mongoose.model("UserInfo");
 app.post("/register", async(req,res) => {
@@ -88,4 +92,23 @@ app.post("/register", async(req,res) => {
     } catch (error) {
         res.send({status: "error"});
     }
+});
+
+//User Login API
+app.post("/login", async(req,res) => {
+    const { email , password } = req.body;
+    const user = await User.findOne({email});
+    if(!user) {
+        return res.send({error : "User does not exists"});
+    }
+    if(await bcrypt.compare(password,user.password)){
+        const token = jwt.sign({},JWT_SECRET);
+
+        if(res.status(201)){
+            return res.json({status : "ok" , data : token});
+        }else{
+            return res.json({status : "error"});
+        }
+    }
+    return res.json({status:"error", error:"Invalid Password"});
 });
