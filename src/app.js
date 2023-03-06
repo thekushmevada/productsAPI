@@ -100,20 +100,23 @@ app.post("/register", async (req, res) => {
 //User Login API
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
+
   const user = await User.findOne({ email });
   if (!user) {
-    return res.send({ error: "User does not exists" });
+    return res.json({ error: "User Not found" });
   }
   if (await bcrypt.compare(password, user.password)) {
-    const token = jwt.sign({}, JWT_SECRET);
+    const token = jwt.sign({ email: user.email }, JWT_SECRET, {
+      expiresIn: "15m",
+    });
 
     if (res.status(201)) {
       return res.json({ status: "ok", data: token });
     } else {
-      return res.json({ status: "error" });
+      return res.json({ error: "error" });
     }
   }
-  return res.json({ status: "error", error: "Invalid Password" });
+  res.json({ status: "error", error: "InvAlid Password" });
 });
 
 // User Data API
@@ -139,8 +142,5 @@ app.post("/userData", async (req, res) => {
       .catch((error) => {
         res.send({ status: "error", data: error });
       });
-  } 
-  catch (error) {
-    console.log(error);
-  }
+  } catch (error) { }
 });
