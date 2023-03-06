@@ -18,6 +18,10 @@ const userDetailsSchema = new mongoose.Schema({
         trim:true,
         unique:true,
     },
+    mobile: {
+        type:Number,
+        unique:true,
+    },
     password:{
         type:String,
         required:true,
