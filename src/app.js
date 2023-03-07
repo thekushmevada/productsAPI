@@ -16,6 +16,9 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const JWT_SECRET =
   "abcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*()_-+=`~?<>,.:;''|";
+app.set("view engine", "ejs");
+app.use(express.urlencoded({extended:false}));
+var nodemailer = require('nodemailer');
 
 const cors = require("cors");
 app.use(
@@ -77,7 +80,7 @@ app.get("/products/:id", async (req, res) => {
 require("./models/userDetails");
 const User = mongoose.model("UserInfo");
 app.post("/register", async (req, res) => {
-  const { fname, lname, email, mobile ,password } = req.body;
+  const { fname, lname, email, mobile, password } = req.body;
 
   const encryptedPassword = await bcrypt.hash(password, 10);
   try {
@@ -143,5 +146,89 @@ app.post("/userData", async (req, res) => {
       .catch((error) => {
         res.send({ status: "error", data: error });
       });
-  } catch (error) { }
+  } catch (error) {}
+});
+
+app.post("/forgotpassword", async (req, res) => {
+  const { email } = req.body;
+  try {
+    const oldUser = await User.findOne({ email });
+    if (!oldUser) {
+      return res.json({ status: "user not exists!" });
+    }
+    const secret = JWT_SECRET + oldUser.password;
+    const token = jwt.sign({ email: oldUser.email, id: oldUser._id }, secret, {
+      expiresIn: "5m",
+    });
+    const link = `https://productssapi.onrender.com/reset-password/${oldUser._id}/${token}`;
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'diyafurnitures18@gmail.com',
+        pass: 'jgpzwdtmpqcswgxc'
+      }
+    });
+    
+    var mailOptions = {
+      from: 'youremail@gmail.com',
+      to: oldUser.email,
+      subject: 'Reset Password',
+      text: 'Please click on this link for reset password : ' +  link,
+    };
+    
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
+    console.log(link);
+  } catch (error) {}
+});
+
+app.get("/reset-password/:id/:token", async (req, res) => {
+  const { id, token } = req.params;
+  // console.log(req.params);
+  const oldUser = await User.findOne({ _id: id });
+  if (!oldUser) {
+    return res.json({ status: "user not exists!" });
+  }
+  const secret = JWT_SECRET + oldUser.password;
+  try {
+    const verify = jwt.verify(token, secret);
+    res.render("index", { email: verify.email , status: "Not verified"});
+  } catch (error) {
+    res.send("not verified");
+  }
+  // res.send("Done");
+});
+
+app.post("/reset-password/:id/:token", async (req, res) => {
+  const { id, token } = req.params;
+  const { password } = req.body;
+  const oldUser = await User.findOne({ _id: id });
+  if (!oldUser) {
+    return res.json({ status: "user not exists!" });
+  }
+  const secret = JWT_SECRET + oldUser.password;
+  try {
+    const verify = jwt.verify(token, secret);
+    const encryptedPassword = await bcrypt.hash(password, 10);
+    await User.updateOne(
+      {
+        _id: id,
+      },
+      {
+        $set: {
+          password: encryptedPassword,
+        },
+      }
+    );
+    res.json({ status: "Password Updated" });
+    res.render("index", { email: verify.email , status : "verified" });
+
+  } catch (error) {
+    res.json({ status: "Something went wrong" });
+  }
 });
