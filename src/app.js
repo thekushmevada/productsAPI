@@ -183,7 +183,7 @@ app.post("/forgotpassword", async (req, res) => {
         console.log('Email sent: ' + info.response);
       }
     });
-    console.log(link);
+    // console.log(link);
   } catch (error) {}
 });
 
@@ -225,7 +225,7 @@ app.post("/reset-password/:id/:token", async (req, res) => {
         },
       }
     );
-    res.json({ status: "Password Updated" });
+    // res.json({ status: "Password Updated" });
     res.render("index", { email: verify.email , status : "verified" });
 
   } catch (error) {
