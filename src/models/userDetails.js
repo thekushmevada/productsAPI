@@ -6,6 +6,7 @@ const userDetailsSchema = new mongoose.Schema({
         type:String,
         required:true,
         trim:true,
+        unique:false,
     },
     lname:{
         type:String,
@@ -20,7 +21,7 @@ const userDetailsSchema = new mongoose.Schema({
     },
     mobile: {
         type:Number,
-        unique:true,
+        unique:false,
     },
     password:{
         type:String,
