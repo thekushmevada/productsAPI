@@ -80,7 +80,7 @@ app.get("/products/:id", async (req, res) => {
 require("./models/userDetails");
 const User = mongoose.model("UserInfo");
 app.post("/register", async (req, res) => {
-  const { fname, lname, email, mobile, password } = req.body;
+  const { fname, lname, email, mobile, password ,userType} = req.body;
 
   const encryptedPassword = await bcrypt.hash(password, 10);
   try {
@@ -94,6 +94,7 @@ app.post("/register", async (req, res) => {
       email,
       mobile,
       password: encryptedPassword,
+      userType,
     });
     res.send({ status: "ok" });
   } catch (error) {

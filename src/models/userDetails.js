@@ -1,35 +1,42 @@
-const express = require('express');
-const mongoose = require('mongoose');
+const express = require("express");
+const mongoose = require("mongoose");
 
-const userDetailsSchema = new mongoose.Schema({
-    fname:{
-        type:String,
-        required:true,
-        trim:true,
-        unique:false,
+const userDetailsSchema = new mongoose.Schema(
+  {
+    userType: {
+      type: String,
+      required: true,
     },
-    lname:{
-        type:String,
-        required:true,
-        trim:true,
+    fname: {
+      type: String,
+      required: true,
+      trim: true,
+      unique: false,
     },
-    email:{
-        type:String,
-        required:true,
-        trim:true,
-        unique:true,
+    lname: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      trim: true,
+      unique: true,
     },
     mobile: {
-        type:Number,
-        unique:false,
+      type: Number,
+      unique: false,
     },
-    password:{
-        type:String,
-        required:true,
-        trim:true,
+    password: {
+      type: String,
+      required: true,
+      trim: true,
     },
-},{
-    collection:"UserInfo",
-});
+  },
+  {
+    collection: "UserInfo",
+  }
+);
 
-mongoose.model("UserInfo" , userDetailsSchema)
+mongoose.model("UserInfo", userDetailsSchema);
