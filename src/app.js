@@ -226,7 +226,7 @@ app.post("/reset-password/:id/:token", async (req, res) => {
         },
       }
     );
-    // res.json({ status: "Password Updated" });
+    res.json({ status: "Password Updated" });
     res.render("index", { email: verify.email, status: "verified" });
   } catch (error) {
     res.json({ status: "Something went wrong" });
