@@ -17,8 +17,8 @@ const jwt = require("jsonwebtoken");
 const JWT_SECRET =
   "abcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*()_-+=`~?<>,.:;''|";
 app.set("view engine", "ejs");
-app.use(express.urlencoded({extended:false}));
-var nodemailer = require('nodemailer');
+app.use(express.urlencoded({ extended: false }));
+var nodemailer = require("nodemailer");
 
 const cors = require("cors");
 app.use(
@@ -80,7 +80,7 @@ app.get("/products/:id", async (req, res) => {
 require("./models/userDetails");
 const User = mongoose.model("UserInfo");
 app.post("/register", async (req, res) => {
-  const { fname, lname, email, mobile, password ,userType} = req.body;
+  const { fname, lname, email, mobile, password, userType } = req.body;
 
   const encryptedPassword = await bcrypt.hash(password, 10);
   try {
@@ -163,25 +163,25 @@ app.post("/forgotpassword", async (req, res) => {
     });
     const link = `https://productssapi.onrender.com/reset-password/${oldUser._id}/${token}`;
     var transporter = nodemailer.createTransport({
-      service: 'gmail',
+      service: "gmail",
       auth: {
-        user: 'diyafurnitures18@gmail.com',
-        pass: 'jgpzwdtmpqcswgxc'
-      }
+        user: "diyafurnitures18@gmail.com",
+        pass: "jgpzwdtmpqcswgxc",
+      },
     });
-    
+
     var mailOptions = {
-      from: 'youremail@gmail.com',
+      from: "youremail@gmail.com",
       to: oldUser.email,
-      subject: 'Reset Password',
-      text: 'Please click on this link for reset password : ' +  link,
+      subject: "Reset Password",
+      text: "Please click on this link for reset password : " + link,
     };
-    
-    transporter.sendMail(mailOptions, function(error, info){
+
+    transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log(error);
       } else {
-        console.log('Email sent: ' + info.response);
+        console.log("Email sent: " + info.response);
       }
     });
     // console.log(link);
@@ -198,7 +198,7 @@ app.get("/reset-password/:id/:token", async (req, res) => {
   const secret = JWT_SECRET + oldUser.password;
   try {
     const verify = jwt.verify(token, secret);
-    res.render("index", { email: verify.email , status: "Not verified"});
+    res.render("index", { email: verify.email, status: "Not verified" });
   } catch (error) {
     res.send("not verified");
   }
@@ -227,20 +227,31 @@ app.post("/reset-password/:id/:token", async (req, res) => {
       }
     );
     // res.json({ status: "Password Updated" });
-    res.render("index", { email: verify.email , status : "verified" });
-
+    res.render("index", { email: verify.email, status: "verified" });
   } catch (error) {
     res.json({ status: "Something went wrong" });
   }
 });
 
-
 //get users data api
-app.get("/getAllUser", async(req,res) => {
+app.get("/getAllUser", async (req, res) => {
   try {
     const allUser = await User.find({});
-    res.send({status: "ok", data: allUser});
+    res.send({ status: "ok", data: allUser });
   } catch (error) {
     console.log(error);
+  }
+});
+
+//delete user
+app.post("/deleteUser", async (req, res) => {
+  const { userID } = req.body;
+  try {
+    User.deleteOne({ _id: userID }, function (err, res) {
+      // console.log(err);
+    });
+    res.send({ status: "ok", data: "Deleted User" });
+  } catch (error) {
+    // console.log(error);
   }
 });
