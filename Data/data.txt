@@ -1,0 +1,25 @@
+{
+    "name":"Table",
+    "company":"Diya Furnitures",
+    "price" : 17000,
+    "colors" : [
+	"#000000",
+	"964B00",
+	"808080"
+	]
+    "image":[
+	"https://www.ikea.com/in/en/images/products/nodeland-coffee-table-medium-brown__0974637_pe812499_s5.jpg",
+	"https://maxfurniture.ca/max333/wp-content/uploads/2019/02/Galiano-Bookcases3-2-1024x576.jpg",
+	"https://cdn.shopify.com/s/files/1/2660/5202/products/I_207882P_d2477ff7-cc22-40b1-aa56-5630f58f39f0_1400x.jpg?v=1670883410",
+	"https://m.media-amazon.com/images/I/31V4Yu8t-IL._SR600%2C315_PIWhiteStrip%2CBottomLeft%2C0%2C35_SCLZZZZZZZ_FMpng_BG255%2C255%2C255.jpg"
+	]
+    "description":"nfoiewhfoiiewh",
+    "category":"fiewh",
+    "featured":true,
+    "shipping":true,
+    "stock":3,
+    "reviews":25,
+    "stars":4.3,
+}
+
+sp6547883@gmail.com

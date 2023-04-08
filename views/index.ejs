@@ -7,16 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- <link rel="stylesheet" href="style.css"> -->
     <title>Document</title>
-    <script>
-
-        var status = ` <%- JSON.stringify(status) %> `;
-
-        if (JSON.parse(status) == "Password Updated") {
-            if (window.confirm("Do you want to login?")) {
-                window.location.href = "https://diyafurnitures.web.app/login";
-            }
-        }
-    </script>
+    
 </head>
 
 <body>
@@ -30,6 +21,18 @@
         <br>
         <input type="submit" value="submit" />
     </form>
+
+    <script>
+
+        var status = ` <%- JSON.stringify(status) %> `;
+
+        if (JSON.parse(status) == "Password Updated") {
+            if (window.confirm(`Do you want to login?`)) {
+                window.location.href = "https://diyafurnitures.web.app/login";
+            }
+        }
+    </script>
+
 </body>
 
 </html>
