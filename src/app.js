@@ -283,6 +283,16 @@ app.get("/getAllQueries", async (req, res) => {
     console.log(error);
   }
 });
+//get Single queries
+app.get("/getSingleQuery", async (req, res) => {
+  const { userID } = req.body;
+  try {
+    const singleQuery = await INQ.findOne({id: userID});
+    res.send({ status: "ok", data: singleQuery });
+  } catch (error) {
+    console.log(error);
+  }
+});
 //delete query
 app.post("/deleteQuery", async (req, res) => {
   const { userID } = req.body;
