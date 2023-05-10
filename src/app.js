@@ -283,3 +283,15 @@ app.get("/getAllQueries", async (req, res) => {
     console.log(error);
   }
 });
+//delete query
+app.post("/deleteQuery", async (req, res) => {
+  const { userID } = req.body;
+  try {
+    INQ.deleteOne({ _id: userID }, function (err, res) {
+      // console.log(err);
+    });
+    res.send({ status: "ok", data: "Deleted Query" });
+  } catch (error) {
+    // console.log(error);
+  }
+});
