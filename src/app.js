@@ -255,3 +255,22 @@ app.post("/deleteUser", async (req, res) => {
     // console.log(error);
   }
 });
+
+
+//User Inquiry API
+require("./models/inquiryDetails")
+const INQ = mongoose.model("inquiryDetails");
+app.post("/inquiry", async (req, res) => {
+  const { username, email, Message } = req.body;
+  try {
+    await INQ.create({
+      username,
+      email,
+      Message
+    });
+    res.send({ status: "ok" });
+  } catch (error) {
+    console.log(error);
+    res.send({ status: "error" });
+  }
+});
