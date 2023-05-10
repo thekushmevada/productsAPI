@@ -274,3 +274,12 @@ app.post("/inquiry", async (req, res) => {
     res.send({ status: "error" });
   }
 });
+//get all queries
+app.get("/getAllQueries", async (req, res) => {
+  try {
+    const allQueries = await INQ.find({});
+    res.send({ status: "ok", data: allQueries });
+  } catch (error) {
+    console.log(error);
+  }
+});
