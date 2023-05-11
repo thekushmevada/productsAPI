@@ -285,10 +285,10 @@ app.get("/getAllQueries", async (req, res) => {
 });
 //get Single queries
 app.post("/getSingleQuery", async (req, res) => {
-  const { userID} = req.body;
+  const { userID } = req.body;
   try {
     const singleQuery = await INQ.findOne({ _id: userID });
-    res.send({ status: "ok", data: singleQuery });
+    
     // console.log(singleQuery.email);
 
     var transporter = nodemailer.createTransport({
@@ -312,6 +312,7 @@ app.post("/getSingleQuery", async (req, res) => {
       } else {
         // console.log("Email sent: " + info.response);
         // return res.json({ status: "mail sent" });
+        res.send({ status: "ok", data: singleQuery });
       }
     });
 
