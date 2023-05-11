@@ -171,7 +171,7 @@ app.post("/forgotpassword", async (req, res) => {
     });
 
     var mailOptions = {
-      from: "youremail@gmail.com",
+      from: "diyafurnitures18@gmail.com",
       to: oldUser.email,
       subject: "Reset Password",
       text: "Please click on this link for reset password : " + link,
@@ -284,10 +284,10 @@ app.get("/getAllQueries", async (req, res) => {
   }
 });
 //get Single queries
-app.get("/getSingleQuery", async (req, res) => {
-  const { userID } = req.body;
+app.post("/getSingleQuery", async (req, res) => {
+  const { userID} = req.body;
   try {
-    const singleQuery = await INQ.findOne({id: userID});
+    const singleQuery = await INQ.findOne({ _id: userID });
     res.send({ status: "ok", data: singleQuery });
   } catch (error) {
     console.log(error);
