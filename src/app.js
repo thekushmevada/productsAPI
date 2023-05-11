@@ -289,6 +289,33 @@ app.post("/getSingleQuery", async (req, res) => {
   try {
     const singleQuery = await INQ.findOne({ _id: userID });
     res.send({ status: "ok", data: singleQuery });
+    // console.log(singleQuery.email);
+
+    var transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "diyafurnitures18@gmail.com",
+        pass: "jgpzwdtmpqcswgxc",
+      },
+    });
+
+    var mailOptions = {
+      from: "diyafurnitures18@gmail.com",
+      to: singleQuery.email,
+      subject: "Responding to your query",
+      text: `Dear ${singleQuery.username}, \n\nThank you for reaching out to us. We are always happy to assist our valued customers in any way we can. Please let us know what your query is, and we will do our best to provide you with the information you need as quickly and accurately as possible. \nIf you have any further questions or concerns, please do not hesitate to contact us. We appreciate your business and look forward to hearing back from you soon. \n\nBest regards, \nDiya Furnitures`,
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        // console.log("Email sent: " + info.response);
+        // return res.json({ status: "mail sent" });
+      }
+    });
+
+
   } catch (error) {
     console.log(error);
   }
