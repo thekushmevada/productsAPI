@@ -256,17 +256,17 @@ app.post("/deleteUser", async (req, res) => {
   }
 });
 
-
 //User Inquiry API
-require("./models/inquiryDetails")
+require("./models/inquiryDetails");
 const INQ = mongoose.model("inquiryDetails");
 app.post("/inquiry", async (req, res) => {
-  const { username, email, Message } = req.body;
+  const { username, email, Message, Responsed } = req.body;
   try {
     await INQ.create({
       username,
       email,
-      Message
+      Message,
+      Responsed
     });
     res.send({ status: "ok" });
   } catch (error) {
@@ -288,7 +288,7 @@ app.post("/getSingleQuery", async (req, res) => {
   const { userID } = req.body;
   try {
     const singleQuery = await INQ.findOne({ _id: userID });
-    
+
     // console.log(singleQuery.email);
 
     var transporter = nodemailer.createTransport({
@@ -312,11 +312,10 @@ app.post("/getSingleQuery", async (req, res) => {
       } else {
         // console.log("Email sent: " + info.response);
         // return res.json({ status: "mail sent" });
+        singleQuery.Responsed = true;
         res.send({ status: "ok", data: singleQuery });
       }
     });
-
-
   } catch (error) {
     console.log(error);
   }
@@ -332,4 +331,9 @@ app.post("/deleteQuery", async (req, res) => {
   } catch (error) {
     // console.log(error);
   }
+});
+
+//email-subscribe API
+app.get("/getemail", async (req, res) => {
+
 });
