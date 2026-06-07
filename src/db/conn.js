@@ -1,24 +1,18 @@
-const mongoose = require('mongoose');
+require('dotenv').config();
 
-// mongoose.connect("mongodb+srv://diyafurnitures18:diyafurnitures@cluster0.taa5fey.mongodb.net/products?retryWrites=true&w=majority" , {
-//     useCreateIndex:true,
-//     useNewUrlParser:true,
-//     useUnifiedTopology:true
-// }).then(() => {
-//     console.log("connection succesfull");
-// }).catch((e) => { 
-//     // console.log(e)
-//     console.log("some error occured in connection");
-// } )
+const mongoose = require('mongoose');
+const db_username = process.env.MONGODB_CLUSTER_USERNAME;
+const db_password = process.env.MONGODB_CLUSTER_PASSWORD;
 
 async function connectDB(){
     try {
-        await mongoose.connect("mongodb+srv://diyafurnitures18:diyafurnitures@cluster0.taa5fey.mongodb.net/products?retryWrites=true&w=majority", {
+        await mongoose.connect(`mongodb+srv://${db_username}:${db_password}@cluster0.taa5fey.mongodb.net/products?retryWrites=true&w=majority`, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });
         console.log("Connected to MongoDB");
-    } catch (err) {
+    } 
+    catch (err) {
         console.log("Error in Connecting", err);
     }
 }

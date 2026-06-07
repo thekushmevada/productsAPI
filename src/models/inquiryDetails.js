@@ -21,6 +21,12 @@ const inquiryDetailsSchema = new mongoose.Schema(
       trim: true,
       unique: false,
     },
+    Responsed: {
+      type: Boolean,
+      required: false,
+      trim: true,
+      unique: false,
+    },
   },
   {
     collection: "Queries",
