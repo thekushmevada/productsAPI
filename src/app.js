@@ -14,8 +14,8 @@ mongoose.set("strictQuery", false);
 //Users
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const JWT_SECRET =
-  "abcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*()_-+=`~?<>,.:;''|";
+const JWT_SECRET = "abcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*()_-+=`~?<>,.:;''|";
+
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
 var nodemailer = require("nodemailer");
@@ -29,7 +29,9 @@ app.use(
 
 connectDB().then(() => {
   ProductRanking.findOne({}, function (error, data) {
-    if (error) return console.error(error);
+    if (error){
+      return console.error(error);
+    } 
   });
 });
 
@@ -46,7 +48,8 @@ app.post("/products", async (req, res) => {
     //console.log(req.body);
     const insertProduct = await ProductRanking(req.body).save();
     res.status(201).send(insertProduct);
-  } catch (e) {
+  } 
+  catch (e) {
     res.status(400).send(e);
   }
 });
@@ -57,11 +60,10 @@ app.get("/products", async (req, res) => {
     const getProduct = await ProductRanking.find({});
     // console.log(req.query);
     res.send(getProduct);
-  } catch (e) {
+  } 
+  catch (e) {
     res.status(400).send(e);
   }
-  // console.log("Please provide ID of Product")
-  // res.send(e);
 });
 
 //we will handle get request of individual
@@ -71,7 +73,8 @@ app.get("/products/:id", async (req, res) => {
     const getProductU = await ProductRanking.findById({ _id });
     // console.log(req.query);
     res.send(getProductU);
-  } catch (e) {
+  } 
+  catch (e) {
     res.status(400).send(e);
   }
 });
@@ -88,16 +91,10 @@ app.post("/register", async (req, res) => {
     if (oldUser) {
       return res.send({ error: "User Already exists" });
     }
-    await User.create({
-      fname,
-      lname,
-      email,
-      mobile,
-      password: encryptedPassword,
-      userType,
-    });
+    await User.create({ fname, lname, email, mobile, password: encryptedPassword, userType, });
     res.send({ status: "ok" });
-  } catch (error) {
+  } 
+  catch (error) {
     res.send({ status: "error" });
   }
 });
@@ -121,7 +118,7 @@ app.post("/login", async (req, res) => {
       return res.json({ error: "error" });
     }
   }
-  res.json({ status: "error", error: "InvAlid Password" });
+  res.json({ status: "error", error: "Invalid Password" });
 });
 
 // User Data API
@@ -147,7 +144,10 @@ app.post("/userData", async (req, res) => {
       .catch((error) => {
         res.send({ status: "error", data: error });
       });
-  } catch (error) {}
+  } 
+  catch (error) {
+    res.send({ status: "error", data: error });
+  }
 });
 
 app.post("/forgotpassword", async (req, res) => {
@@ -199,7 +199,8 @@ app.get("/reset-password/:id/:token", async (req, res) => {
   try {
     const verify = jwt.verify(token, secret);
     res.render("index", { email: verify.email, status: "Not verified" });
-  } catch (error) {
+  } 
+  catch (error) {
     res.send("not verified");
   }
   // res.send("Done");
@@ -274,6 +275,7 @@ app.post("/inquiry", async (req, res) => {
     res.send({ status: "error" });
   }
 });
+
 //get all queries
 app.get("/getAllQueries", async (req, res) => {
   try {
@@ -283,6 +285,7 @@ app.get("/getAllQueries", async (req, res) => {
     console.log(error);
   }
 });
+
 //get Single queries
 app.post("/getSingleQuery", async (req, res) => {
   const { userID } = req.body;
@@ -320,6 +323,7 @@ app.post("/getSingleQuery", async (req, res) => {
     console.log(error);
   }
 });
+
 //delete query
 app.post("/deleteQuery", async (req, res) => {
   const { userID } = req.body;
